@@ -1,6 +1,7 @@
 package com.yitouwushui.imagemi.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.yitouwushui.imagemi.R;
 import com.yitouwushui.imagemi.Uitls.ScreenUtils;
+import com.yitouwushui.imagemi.View.DividerGridItemDecoration;
 import com.yitouwushui.imagemi.bean.MyImage;
 
 import java.util.ArrayList;
@@ -73,6 +75,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         }
         holder.tvDate.setText("4月" + myImage.id + "日");
         holder.itemRecyclerView.setLayoutManager(new GridLayoutManager(mContext, imageSpace[1], GridLayoutManager.VERTICAL, false));
+        holder.itemRecyclerView.addItemDecoration(new DividerGridItemDecoration(mContext));
         holder.itemRecyclerView.setAdapter(new PictureItemAdapter(myImage.images, mContext, imageSpace[0]));
     }
 

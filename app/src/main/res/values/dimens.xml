@@ -10,6 +10,6 @@
     <!--高-->
     <dimen name="main_tab_height">48dp</dimen>
     <dimen name="space_line_height">1dp</dimen>
-    <dimen name="item_text_height">32dp</dimen>
+    <dimen name="item_text_height">40dp</dimen>
     <dimen name="item_picture_size">80dp</dimen>
 </resources>

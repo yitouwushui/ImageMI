@@ -46,12 +46,12 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
         layoutParams.height = imageSize;
         layoutParams.width = imageSize;
         holder.img.setLayoutParams(layoutParams);
-        LogUtils.d("imageSize :" + imageSize);
+//        LogUtils.d("imageSize :" + imageSize);
         int id;
         if (position % 2 == 0) {
-            id = R.drawable.picture;
+            id = R.drawable.black;
         } else {
-            id = R.drawable.girl;
+            id = R.drawable.black;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             holder.img.setImageDrawable(mContext.getDrawable(id));
