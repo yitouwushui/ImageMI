@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         tabAdapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
     }
 
     @OnClick({R.id.tabLayout, R.id.viewPager})
