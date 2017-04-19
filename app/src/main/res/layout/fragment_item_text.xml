@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_text_height"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
     <TextView
         android:id="@+id/tv_date"

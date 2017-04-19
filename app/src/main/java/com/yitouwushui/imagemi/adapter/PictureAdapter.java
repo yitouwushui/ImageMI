@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yitouwushui.imagemi.R;
+import com.yitouwushui.imagemi.Uitls.DensityUtils;
 import com.yitouwushui.imagemi.Uitls.ScreenUtils;
 import com.yitouwushui.imagemi.View.DividerGridItemDecoration;
 import com.yitouwushui.imagemi.bean.MyImage;
@@ -33,8 +34,9 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     /**
      * imageSpace0 image size;
      * imageSpace1 每行显示图片的数量
+     * imageSpace2 图片的边距
      */
-    private int[] imageSpace = new int[2];
+    private int[] imageSpace = new int[3];
 
     public PictureAdapter(List<MyImage> mValues, Context mContext) {
         this.mValues.addAll(mValues);
@@ -49,13 +51,15 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     public void measureImageSpace() {
         int w = ScreenUtils.getScreenWidth(mContext);
         int h = ScreenUtils.getScreenHeight(mContext);
+        int dpUnit = DensityUtils.dp2px(mContext, 1f);
         if (w > h) {
-            imageSpace[0] = h / 4;
+            imageSpace[0] = h / 4 - dpUnit;
             imageSpace[1] = w * 4 / h;
         } else {
-            imageSpace[0] = w / 4;
+            imageSpace[0] = w / 4 - dpUnit;
             imageSpace[1] = 4;
         }
+        imageSpace[2] = dpUnit * imageSpace[1] / (imageSpace[1] - 1);
     }
 
 
@@ -75,8 +79,8 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         }
         holder.tvDate.setText("4月" + myImage.id + "日");
         holder.itemRecyclerView.setLayoutManager(new GridLayoutManager(mContext, imageSpace[1], GridLayoutManager.VERTICAL, false));
-        holder.itemRecyclerView.addItemDecoration(new DividerGridItemDecoration(mContext));
-        holder.itemRecyclerView.setAdapter(new PictureItemAdapter(myImage.images, mContext, imageSpace[0]));
+//        holder.itemRecyclerView.addItemDecoration(new DividerGridItemDecoration(mContext));
+        holder.itemRecyclerView.setAdapter(new PictureItemAdapter(myImage.images, mContext, imageSpace));
     }
 
     @Override

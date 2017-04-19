@@ -24,10 +24,9 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 
     public DividerGridItemDecoration(Context context) {
-//        final TypedArray a = context.obtainStyledAttributes(ATTRS);
-//        this.mDivider = a.getDrawable(0);
-//        a.recycle();
-        mDivider = context.getResources().getDrawable(R.drawable.shape_divider_bg);
+        final TypedArray a = context.obtainStyledAttributes(ATTRS);
+        this.mDivider = a.getDrawable(0);
+        a.recycle();
     }
 
     @Override
@@ -121,10 +120,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
                               int spanCount, int childCount) {
         LayoutManager layoutManager = parent.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
-            LogUtils.d("pos1:" + pos + "  childCount:" + childCount + "  spanCount" + spanCount);
-            // 计算最后一行多出的itemNum
-            int num = childCount - (spanCount - childCount % spanCount);
-            if (childCount <= spanCount || pos >= num) {
+            if (pos >= ((childCount - 1) / spanCount) * spanCount) {
                 // 如果是最后一行，则不需要绘制底部
                 return true;
             }
@@ -133,10 +129,9 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
                     .getOrientation();
             // StaggeredGridLayoutManager 且纵向滚动
             if (orientation == StaggeredGridLayoutManager.VERTICAL) {
-                childCount = childCount - childCount % spanCount;
-                // 如果是最后一行，则不需要绘制底部
-                if (pos >= childCount || pos < spanCount)
+                if (pos >= ((childCount - 1) / spanCount) * spanCount) {
                     return true;
+                }
             } else {
                 // StaggeredGridLayoutManager 且横向滚动
                 // 如果是最后一行，则不需要绘制底部
@@ -155,13 +150,22 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
         int childCount = parent.getAdapter().getItemCount();
         if (isLastRaw(parent, itemPosition, spanCount, childCount)) {
             // 如果是最后一行，则不需要绘制底部
-            outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
+            if (isLastColumn(parent, itemPosition, spanCount, childCount)) {
+                // 并且是最后一列
+                outRect.set(0, 0, 0, 0);
+                LogUtils.d("333333", "true");
+            } else {
+                outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
+            }
+            LogUtils.d("celiang", "pi" + itemPosition + " isLastRaw" + mDivider.getIntrinsicWidth());
         } else if (isLastColumn(parent, itemPosition, spanCount, childCount)) {
             // 如果是最后一列，则不需要绘制右边
             outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+            LogUtils.d("celiang", "pi" + itemPosition + " isLastColumn" + mDivider.getIntrinsicHeight());
         } else {
             outRect.set(0, 0, mDivider.getIntrinsicWidth(),
                     mDivider.getIntrinsicHeight());
+            LogUtils.d("celiang", "pi" + itemPosition + " Height" + mDivider.getIntrinsicHeight() + "  Width: " + mDivider.getIntrinsicWidth());
         }
     }
 }
