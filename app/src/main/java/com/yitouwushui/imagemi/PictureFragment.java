@@ -6,12 +6,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.yitouwushui.imagemi.Uitls.LogUtils;
 import com.yitouwushui.imagemi.adapter.PictureAdapter;
 import com.yitouwushui.imagemi.bean.MyImage;
 
@@ -40,8 +44,9 @@ public class PictureFragment extends Fragment {
     private List<MyImage> mMyImageList;
     private View mView;
     private PictureAdapter adapter;
-    private int mTopHeight;
-    private TopView mTopView;
+
+//    private TopView mTopView;
+//    private View topView;
 
     public PictureFragment() {
     }
@@ -74,12 +79,11 @@ public class PictureFragment extends Fragment {
         return mView;
     }
 
-    private void init(LayoutInflater inflater, ViewGroup container) {
+    private void init(LayoutInflater inflater, final ViewGroup container) {
         mView = inflater.inflate(R.layout.fragment_picture_list, container, false);
-        View topView = inflater.inflate(R.layout.fragment_item_text, container, false);
         ButterKnife.bind(this, mView);
-        mTopView = new TopView(topView);
-
+//        topView = inflater.inflate(R.layout.fragment_item_text, container, false);
+//        mTopView = new TopView(topView);
 
 
         list = (RecyclerView) mView.findViewById(R.id.list);
@@ -87,17 +91,97 @@ public class PictureFragment extends Fragment {
                 mContext, LinearLayoutCompat.VERTICAL, false));
         adapter = new PictureAdapter(mMyImageList, mContext);
         list.setAdapter(adapter);
+//
+//        list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            private int mTopHeight = (int) mContext.getResources().getDimension(R.dimen.item_text_height);
+//            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mTopHeight);
+//            FrameLayout preView = null;
+//
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                FrameLayout currentUpView = (FrameLayout) recyclerView.findChildViewUnder(0, 0);
+//                FrameLayout currentLowView = (FrameLayout) recyclerView.findChildViewUnder(0, mTopHeight);
+//
+//
+//                //  初始化preView
+//                if (dy == 0) {
+//                    preView = currentUpView;
+//                    LogUtils.d("topView", String.valueOf(preView.hashCode()));
+//                }
+//                // 当下移临界点时，标题栏从原view中移到topContainer中
+//                if (currentLowView != preView || dy > 0) {
+//                    View titleView = topContainer.getChildAt(0);
+//                    if (titleView != null) {
+//                        topContainer.removeView(titleView);
+//                        params.gravity = Gravity.BOTTOM;
+//                        titleView.setLayoutParams(params);
+//                        preView.addView(titleView);
+//                        //    将preView替换成现有的currentLowView
+//                        preView = currentLowView;
+//                        LogUtils.d("topView", "下滑交替");
+//                    }
+//                }
+//                // 当上移到临界点时
+//                if (currentUpView != preView || dy < 0) {
+//                    // 上标题栏置顶
+//                    View upTv = currentUpView.findViewById(R.id.item_recycler_title);
+//                    if (null != upTv) {
+//                        params.gravity = Gravity.BOTTOM;
+//                        upTv.setLayoutParams(params);
+//                        LogUtils.d("topView", "上滑标题置顶");
+//                        if (preView.equals(currentLowView)) {
+//                            // 第二个置顶的情况
+//                            View lastTv = preView.findViewById(R.id.item_recycler_title);
+//                            if (lastTv != null) {
+//                                params.gravity = Gravity.TOP;
+//                                lastTv.setLayoutParams(params);
+//                            }
+//                        }
+//
+//                    }
+//                    // 下标题栏置顶
+//                    View lowTv = topContainer.getChildAt(0);
+//                    if (null != lowTv) {
+//                        topContainer.removeView(lowTv);
+//                        params.gravity = Gravity.TOP;
+//                        lowTv.setLayoutParams(params);
+//                        preView.addView(lowTv);
+//                        LogUtils.d("topView", "下标题置顶");
+//                    }
+//                    //  将preView替换成现有的currentUpView
+//                    preView = currentUpView;
+//                }
+//
+//                //   只有一种情况会让标题栏上浮，就是两个锚点下的view相同的时候
+//                if (currentUpView.equals(currentLowView)) {
+//                    View tv = currentLowView.findViewById(R.id.item_recycler_title);
+//                    if (null != tv) {
+//                        LogUtils.d("topView", "同一个item,固定标题栏");
+//                        currentUpView.removeView(tv);
+//                        params.gravity = Gravity.TOP;
+//                        tv.setLayoutParams(params);
+//                        topContainer.addView(tv);
+//                    }
+//                }
+//                LogUtils.d("topView", "----------");
+//            }
+//        });
+
         list.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                FrameLayout currentUpView = (FrameLayout) recyclerView.findChildViewUnder(0, 0);
-                FrameLayout currentLowView = (FrameLayout) recyclerView.findChildViewUnder(0, mTopHeight);
+//                FrameLayout currentUpView = (FrameLayout) recyclerView.findChildViewUnder(0, 0);
+//                View upTv = currentUpView.findViewById(R.id.item_recycler_title);
+//                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) upTv.getLayoutParams();
+//                params.setMargins(0, (int) currentUpView.getY() * -1, 0, 0);
+//
+//                adapter.notifyItemChanged(recyclerView.getChildAdapterPosition(currentUpView));
+
             }
         });
-
     }
 
     @Override

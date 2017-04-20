@@ -91,9 +91,6 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
             rightMargin = 0;
         }
         layoutParams.setMargins(0, 0, rightMargin, bottomMargin);
-        if (rightMargin == bottomMargin) {
-            LogUtils.d("==", String.valueOf(rightMargin));
-        }
         return layoutParams;
     }
 

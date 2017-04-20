@@ -14,6 +14,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_text_height"
+        android:id="@+id/item_recycler_title"
+        android:background="@color/colorContentBackground"
         android:orientation="horizontal">
 
         <TextView
