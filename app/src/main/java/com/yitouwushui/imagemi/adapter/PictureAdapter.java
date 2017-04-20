@@ -5,9 +5,12 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yitouwushui.imagemi.R;
@@ -77,9 +80,11 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         } else {
             holder.tvLocation.setText(myImage.content);
         }
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) holder.itemRecyclerTitle.getLayoutParams();
+        params.gravity = Gravity.TOP;
+        holder.itemRecyclerTitle.setLayoutParams(params);
         holder.tvDate.setText("4月" + myImage.id + "日");
         holder.itemRecyclerView.setLayoutManager(new GridLayoutManager(mContext, imageSpace[1], GridLayoutManager.VERTICAL, false));
-//        holder.itemRecyclerView.addItemDecoration(new DividerGridItemDecoration(mContext));
         holder.itemRecyclerView.setAdapter(new PictureItemAdapter(myImage.images, mContext, imageSpace));
     }
 
@@ -99,6 +104,8 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         TextView tvLocation;
         @Bind(R.id.tv_button)
         TextView tvButton;
+        @Bind(R.id.item_recycler_title)
+        LinearLayout itemRecyclerTitle;
 
         ViewHolder(View view) {
             super(view);
