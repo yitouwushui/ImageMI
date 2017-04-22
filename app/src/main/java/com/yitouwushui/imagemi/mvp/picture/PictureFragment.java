@@ -1,4 +1,4 @@
-package com.yitouwushui.imagemi;
+package com.yitouwushui.imagemi.mvp.picture;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.yitouwushui.imagemi.R;
 import com.yitouwushui.imagemi.Uitls.LogUtils;
 import com.yitouwushui.imagemi.adapter.PictureAdapter;
 import com.yitouwushui.imagemi.bean.MyImage;
@@ -84,7 +85,6 @@ public class PictureFragment extends Fragment {
         ButterKnife.bind(this, mView);
 //        topView = inflater.inflate(R.layout.fragment_item_text, container, false);
 //        mTopView = new TopView(topView);
-
 
         list = (RecyclerView) mView.findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(

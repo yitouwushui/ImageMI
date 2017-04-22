@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.yitouwushui.imagemi.AlbumFragment;
-import com.yitouwushui.imagemi.PictureFragment;
+import com.yitouwushui.imagemi.mvp.picture.PictureFragment;
 
 import java.util.ArrayList;
 import java.util.List;
