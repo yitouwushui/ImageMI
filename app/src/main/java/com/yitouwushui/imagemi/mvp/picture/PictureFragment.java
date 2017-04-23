@@ -21,6 +21,7 @@ import com.yitouwushui.imagemi.adapter.PictureAdapter;
 import com.yitouwushui.imagemi.bean.MyImage;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -33,7 +34,7 @@ import butterknife.ButterKnife;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PictureFragment extends Fragment {
+public class PictureFragment extends Fragment implements PictureContract.IView {
 
     private static final String TAG = "PictureFragment";
     @Bind(R.id.list)
@@ -47,7 +48,7 @@ public class PictureFragment extends Fragment {
     private PictureAdapter adapter;
 
 //    private TopView mTopView;
-//    private View topView;
+//    private IView topView;
 
     public PictureFragment() {
     }
@@ -63,6 +64,8 @@ public class PictureFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         if (mMyImageList == null) {
+            PicturePresenter picturePresenter = new PicturePresenter(this, mContext);
+            picturePresenter.queryPicture(new Date());
             mMyImageList = new ArrayList<>();
             Random random = new Random();
             for (int i = 1; i < 50; i++) {
@@ -158,7 +161,7 @@ public class PictureFragment extends Fragment {
 //            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 //                super.onScrolled(recyclerView, dx, dy);
 //                FrameLayout currentUpView = (FrameLayout) recyclerView.findChildViewUnder(0, 0);
-//                View upTv = currentUpView.findViewById(R.id.item_recycler_title);
+//                IView upTv = currentUpView.findViewById(R.id.item_recycler_title);
 //                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) upTv.getLayoutParams();
 //                params.setMargins(0, (int) currentUpView.getY() * -1, 0, 0);
 //
@@ -186,6 +189,41 @@ public class PictureFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void addPicture(List<MyImage> myImageList) {
+
+    }
+
+    @Override
+    public void delPicture(MyImage myImage) {
+
+    }
+
+    @Override
+    public void queryPictre(MyImage myImage) {
+
+    }
+
+    @Override
+    public void error() {
+
+    }
+
+    @Override
+    public void showNetworkFail() {
+
+    }
+
+    @Override
+    public void showNetworkFail(String err) {
+
+    }
+
+    @Override
+    public void showToast(String toast) {
+
     }
 
 

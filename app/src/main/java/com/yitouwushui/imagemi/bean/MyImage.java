@@ -12,6 +12,7 @@ public class MyImage {
     public int id;
     public String content;
     public List<Integer> images = new ArrayList<>();
+    public List<ImageBean> imageBeanList = new ArrayList<>();
 
     public MyImage(int id, String content) {
         this.id = id;
@@ -25,5 +26,12 @@ public class MyImage {
     }
 
     public MyImage() {
+    }
+
+    public MyImage(int id, String content, List<Integer> images, List<ImageBean> imageBeanList) {
+        this.id = id;
+        this.content = content;
+        this.images = images;
+        this.imageBeanList = imageBeanList;
     }
 }
