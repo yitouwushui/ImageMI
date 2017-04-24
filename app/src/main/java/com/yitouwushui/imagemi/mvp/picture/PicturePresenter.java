@@ -25,12 +25,12 @@ public class PicturePresenter implements PictureContract {
         this.mIModel = new PictureModel(context, new PictureModel.PictureModelCallBack() {
             @Override
             public void querySuccess(List<MyImage> myImageList) {
-
+                PicturePresenter.this.mIView.queryPicture(myImageList);
             }
 
             @Override
             public void querySuccess(MyImage myImage) {
-                PicturePresenter.this.mIView.queryPictre(myImage);
+                PicturePresenter.this.mIView.queryPicture(myImage);
             }
 
             @Override

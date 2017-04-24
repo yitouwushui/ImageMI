@@ -31,7 +31,14 @@ public interface PictureContract {
          *
          * @param myImage
          */
-        void queryPictre(MyImage myImage);
+        void queryPicture(MyImage myImage);
+
+        /**
+         * 查询图片
+         *
+         * @param myImageList
+         */
+        void queryPicture(List<MyImage> myImageList);
 
         /**
          * 发生错误

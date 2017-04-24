@@ -1,24 +1,23 @@
 package com.yitouwushui.imagemi.adapter;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.yitouwushui.imagemi.R;
-import com.yitouwushui.imagemi.Uitls.LogUtils;
+import com.yitouwushui.imagemi.bean.ImageBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by ding on 2017/4/18.
@@ -26,7 +25,7 @@ import butterknife.ButterKnife;
 
 public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.ViewHolder> {
 
-    private ArrayList<Integer> mData = new ArrayList<>();
+    private ArrayList<ImageBean> mData = new ArrayList<>();
     private Context mContext;
     private LayoutInflater inflater;
     /**
@@ -36,7 +35,7 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
      */
     private int[] imageSpace = new int[3];
 
-    public PictureItemAdapter(List<Integer> mData, Context mContext, int[] imageSpace) {
+    public PictureItemAdapter(List<ImageBean> mData, Context mContext, int[] imageSpace) {
         this.mData.addAll(mData);
         this.mContext = mContext;
         this.imageSpace = imageSpace;
@@ -53,26 +52,17 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.img.getLayoutParams();
 
         holder.img.setLayoutParams(setLayoutParams(layoutParams, position, imageSpace[1], mData.size()));
-        int id;
-        if (position % 2 == 0) {
-            id = R.drawable.black;
-        } else {
-            id = R.drawable.black;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.img.setImageDrawable(mContext.getDrawable(id));
-        } else {
-            holder.img.setImageDrawable(mContext.getResources().getDrawable(id));
-        }
+        ImageBean imageBean = mData.get(position);
+        Glide.with(mContext).load(imageBean.getImagePath()).placeholder(R.drawable.girl).into(holder.img);
     }
 
     /**
      * 动态设置边距
      *
      * @param layoutParams
-     * @param pos 位置
-     * @param spanCount 行总数
-     * @param childCount 所有的子项
+     * @param pos          位置
+     * @param spanCount    行总数
+     * @param childCount   所有的子项
      * @return
      */
     private RelativeLayout.LayoutParams setLayoutParams(
@@ -115,13 +105,21 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
         return mData.size();
     }
 
+
     class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.img)
         ImageView img;
+
+        private int position;
 
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
+
+//        @OnClick(R.id.img)
+//        public void onClick() {
+//            mData.get()
+//        }
     }
 }

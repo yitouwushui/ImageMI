@@ -1,4 +1,4 @@
-package com.yitouwushui.imagemi.Uitls;
+package com.yitouwushui.imagemi.uitls;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

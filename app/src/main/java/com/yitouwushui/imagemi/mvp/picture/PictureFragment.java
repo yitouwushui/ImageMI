@@ -1,29 +1,26 @@
 package com.yitouwushui.imagemi.mvp.picture;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yitouwushui.imagemi.R;
-import com.yitouwushui.imagemi.Uitls.LogUtils;
 import com.yitouwushui.imagemi.adapter.PictureAdapter;
 import com.yitouwushui.imagemi.bean.MyImage;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,16 +64,15 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
             PicturePresenter picturePresenter = new PicturePresenter(this, mContext);
             picturePresenter.queryPicture(new Date());
             mMyImageList = new ArrayList<>();
-            Random random = new Random();
-            for (int i = 1; i < 50; i++) {
-                ArrayList<Integer> list = new ArrayList<>();
-                for (int j = 1, k = random.nextInt(8) + 2; j < k; j++) {
-                    list.add(j);
-                }
-                mMyImageList.add(new MyImage(i, "2333333", list));
-            }
+//            Random random = new Random();
+//            for (int i = 1; i < 50; i++) {
+//                ArrayList<Integer> list = new ArrayList<>();
+//                for (int j = 1, k = random.nextInt(8) + 2; j < k; j++) {
+//                    list.add(j);
+//                }
+//                mMyImageList.add(new MyImage(Long.valueOf(String.valueOf(i)), "2333333", list));
+//            }
         }
-
         if (mView == null) {
             init(inflater, container);
         }
@@ -156,19 +152,6 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
             }
         });
 
-//        list.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                FrameLayout currentUpView = (FrameLayout) recyclerView.findChildViewUnder(0, 0);
-//                IView upTv = currentUpView.findViewById(R.id.item_recycler_title);
-//                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) upTv.getLayoutParams();
-//                params.setMargins(0, (int) currentUpView.getY() * -1, 0, 0);
-//
-//                adapter.notifyItemChanged(recyclerView.getChildAdapterPosition(currentUpView));
-//
-//            }
-//        });
     }
 
     @Override
@@ -202,8 +185,20 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
     }
 
     @Override
-    public void queryPictre(MyImage myImage) {
+    public void queryPicture(MyImage myImage) {
 
+    }
+
+    @Override
+    public void queryPicture(List<MyImage> myImageList) {
+        adapter.setValues(myImageList);
+        ((Activity) mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+
+            }
+        });
     }
 
     @Override

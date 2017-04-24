@@ -1,4 +1,4 @@
-package com.yitouwushui.imagemi.View;
+package com.yitouwushui.imagemi.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,11 +9,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 
-import com.yitouwushui.imagemi.R;
-import com.yitouwushui.imagemi.Uitls.LogUtils;
+import com.yitouwushui.imagemi.uitls.LogUtils;
 
 /**
  * Created by yitouwushui on 2017/4/18.

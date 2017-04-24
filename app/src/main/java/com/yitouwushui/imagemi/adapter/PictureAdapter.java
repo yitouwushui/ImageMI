@@ -1,7 +1,6 @@
 package com.yitouwushui.imagemi.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -14,9 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yitouwushui.imagemi.R;
-import com.yitouwushui.imagemi.Uitls.DensityUtils;
-import com.yitouwushui.imagemi.Uitls.ScreenUtils;
-import com.yitouwushui.imagemi.View.DividerGridItemDecoration;
+import com.yitouwushui.imagemi.uitls.DensityUtils;
+import com.yitouwushui.imagemi.uitls.ScreenUtils;
 import com.yitouwushui.imagemi.bean.MyImage;
 
 import java.util.ArrayList;
@@ -48,8 +46,21 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         measureImageSpace();
     }
 
+    public List<MyImage> getValues() {
+        return mValues;
+    }
+
+    public void setValues(List<MyImage> mValues) {
+        this.mValues.clear();
+        this.mValues.addAll(mValues);
+    }
+
+    public void addValues(List<MyImage> mValues) {
+        this.mValues.addAll(mValues);
+    }
+
     /**
-     *
+     * 测量图片尺寸间距
      */
     public void measureImageSpace() {
         int w = ScreenUtils.getScreenWidth(mContext);
@@ -83,9 +94,9 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) holder.itemRecyclerTitle.getLayoutParams();
         params.gravity = Gravity.TOP;
         holder.itemRecyclerTitle.setLayoutParams(params);
-        holder.tvDate.setText("4月" + myImage.id + "日");
+        holder.tvDate.setText(myImage.getData());
         holder.itemRecyclerView.setLayoutManager(new GridLayoutManager(mContext, imageSpace[1], GridLayoutManager.VERTICAL, false));
-        holder.itemRecyclerView.setAdapter(new PictureItemAdapter(myImage.images, mContext, imageSpace));
+        holder.itemRecyclerView.setAdapter(new PictureItemAdapter(myImage.imageBeanList, mContext, imageSpace));
     }
 
     @Override

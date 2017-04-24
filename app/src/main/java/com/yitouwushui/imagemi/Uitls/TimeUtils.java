@@ -1,4 +1,4 @@
-package com.yitouwushui.imagemi.Uitls;
+package com.yitouwushui.imagemi.uitls;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,7 +34,7 @@ public class TimeUtils {
      * @param l 时间戳
      * @return
      */
-    public static String getDateToTime(Long l) {
+    public static String getStringByDate(Long l) {
         Date date = new Date();
         String time = "";
         try {
@@ -46,17 +46,18 @@ public class TimeUtils {
         }
         return time;
     }
+
     /**
      * 获取时间日期部分
      *
      * @param time
      * @return
      */
-    public String getDateString(Long time) {
+    public static String getDayString(Long time) {
         Date date = new Date();
         String data = "";
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年mm月dd日");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
             date.setTime(time);
             data = sdf.format(date);
         } catch (Exception e) {
@@ -71,7 +72,7 @@ public class TimeUtils {
 //     * @param time
 //     * @return
 //     */
-//    public long getDateString(long time) {
+//    public long getDayString(long time) {
 //        Date date = new Date();
 //        String data = "";
 //        try {
@@ -83,6 +84,21 @@ public class TimeUtils {
 //        }
 //        return data;
 //    }
+
+    /**
+     * 去掉时分秒后的整天
+     *
+     * @param time
+     * @return
+     */
+    public static long getDayTimeByTime(long time) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(time));
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        return cal.getTime().getTime();
+    }
 
     /**
      * 获取时间时间部分
@@ -112,7 +128,6 @@ public class TimeUtils {
         calendar.add(Calendar.MINUTE, minute);
         return calendar.getTime().getTime();
     }
-
 
 
 }
