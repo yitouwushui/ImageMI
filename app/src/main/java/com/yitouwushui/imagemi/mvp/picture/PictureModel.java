@@ -90,23 +90,18 @@ public class PictureModel implements PictureContract.IModel {
 
                         if (time == 0) {
                             time = TimeUtils.getDayTimeByTime(date);
+                        }
+                        if (date >= time) {
+                            imageBeenList.add(imageBean);
                         } else {
-                            if (date >= time) {
-                                imageBeenList.add(imageBean);
-                                LogUtils.i("ID=" + id + "  path:" + path + "  dare:" + TimeUtils.getStringByDate(date) + "  time" + TimeUtils.getStringByDate(time));
-                            } else {
-                                if (imageBeenList.size() != 0) {
-                                    MyImage myImage = new MyImage();
-                                    myImage.setId(time);
-                                    myImage.setData(TimeUtils.getDayString(time));
-                                    myImage.setImageBeanList(imageBeenList);
-                                    myImageList.add(myImage);
-                                    imageBeenList = new ArrayList<>();
-                                    LogUtils.i("日期:" + myImage.getData() + "  size:" + myImage.getImageBeanList().size() + "  dare:" + date);
-                                }
-                                time = TimeUtils.getDayTimeByTime(date);
-                            }
-                            continue;
+                            MyImage myImage = new MyImage();
+                            myImage.setId(time);
+                            myImage.setData(TimeUtils.getDayString(time));
+                            myImage.setImageBeanList(imageBeenList);
+                            myImageList.add(myImage);
+                            imageBeenList = new ArrayList<>();
+                            imageBeenList.add(imageBean);
+                            time = TimeUtils.getDayTimeByTime(date);
                         }
                     }
                     // 结果后最后一个相册集

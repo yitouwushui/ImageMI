@@ -28,6 +28,7 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
     private ArrayList<ImageBean> mData = new ArrayList<>();
     private Context mContext;
     private LayoutInflater inflater;
+    private PictureItemOnClick pictureItemOnClick;
     /**
      * imageSpace0 image size;
      * imageSpace1 每行显示图片的数量
@@ -35,10 +36,12 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
      */
     private int[] imageSpace = new int[3];
 
-    public PictureItemAdapter(List<ImageBean> mData, Context mContext, int[] imageSpace) {
+    public PictureItemAdapter(List<ImageBean> mData, Context mContext,
+                              int[] imageSpace, PictureItemOnClick pictureItemOnClick) {
         this.mData.addAll(mData);
         this.mContext = mContext;
         this.imageSpace = imageSpace;
+        this.pictureItemOnClick = pictureItemOnClick;
         inflater = LayoutInflater.from(mContext);
     }
 
@@ -50,10 +53,14 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.img.getLayoutParams();
-
         holder.img.setLayoutParams(setLayoutParams(layoutParams, position, imageSpace[1], mData.size()));
+        holder.position = position;
         ImageBean imageBean = mData.get(position);
-        Glide.with(mContext).load(imageBean.getImagePath()).placeholder(R.drawable.girl).into(holder.img);
+        Glide.with(mContext)
+                .load(imageBean.getImagePath())
+                .fitCenter()
+                .crossFade()
+                .into(holder.img);
     }
 
     /**
@@ -106,7 +113,7 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.img)
         ImageView img;
 
@@ -117,9 +124,16 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
             ButterKnife.bind(this, view);
         }
 
-//        @OnClick(R.id.img)
-//        public void onClick() {
-//            mData.get()
-//        }
+        @Override
+        public void onClick(View v) {
+            if (pictureItemOnClick != null) {
+                pictureItemOnClick.onItemClick(v, mData.get(position), position);
+            }
+        }
+
+    }
+
+    interface PictureItemOnClick {
+        void onItemClick(View view, ImageBean imageBean, int position);
     }
 }

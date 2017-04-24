@@ -13,9 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yitouwushui.imagemi.R;
+import com.yitouwushui.imagemi.bean.ImageBean;
+import com.yitouwushui.imagemi.bean.MyImage;
+import com.yitouwushui.imagemi.mvp.picture.PictureFragment;
 import com.yitouwushui.imagemi.uitls.DensityUtils;
 import com.yitouwushui.imagemi.uitls.ScreenUtils;
-import com.yitouwushui.imagemi.bean.MyImage;
+import com.yitouwushui.imagemi.uitls.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,8 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     private List<MyImage> mValues = new ArrayList<>();
     private Context mContext;
     private LayoutInflater inflater;
+    private PictureItemAdapter[] pictureItemAdapters;
+    private PictureFragmentItem pictureFragmentItem;
     /**
      * imageSpace0 image size;
      * imageSpace1 每行显示图片的数量
@@ -39,11 +44,16 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
      */
     private int[] imageSpace = new int[3];
 
-    public PictureAdapter(List<MyImage> mValues, Context mContext) {
+    public PictureAdapter(List<MyImage> mValues, Context mContext,
+                          PictureFragmentItem pictureFragmentItem) {
         this.mValues.addAll(mValues);
         this.mContext = mContext;
         this.inflater = LayoutInflater.from(mContext);
+        this.pictureFragmentItem = pictureFragmentItem;
         measureImageSpace();
+        // 存适配器
+        pictureItemAdapters = new PictureItemAdapter[mValues.size()];
+
     }
 
     public List<MyImage> getValues() {
@@ -91,12 +101,25 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         } else {
             holder.tvLocation.setText(myImage.content);
         }
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) holder.itemRecyclerTitle.getLayoutParams();
-        params.gravity = Gravity.TOP;
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                (int) mContext.getResources().getDimension(R.dimen.item_text_height), Gravity.TOP);
         holder.itemRecyclerTitle.setLayoutParams(params);
         holder.tvDate.setText(myImage.getData());
         holder.itemRecyclerView.setLayoutManager(new GridLayoutManager(mContext, imageSpace[1], GridLayoutManager.VERTICAL, false));
-        holder.itemRecyclerView.setAdapter(new PictureItemAdapter(myImage.imageBeanList, mContext, imageSpace));
+        PictureItemAdapter pictureItemAdapter = new PictureItemAdapter(myImage.imageBeanList, mContext, imageSpace, pictureItemOnClick);
+        if (position < pictureItemAdapters.length) {
+            pictureItemAdapters[position] = pictureItemAdapter;
+        }
+        holder.itemRecyclerView.setAdapter(pictureItemAdapter);
+//        holder.itemRecyclerTitle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (pictureFragmentItem != null) {
+//                    pictureFragmentItem.onItemClick(v);
+//                }
+//            }
+//        });
+
     }
 
     @Override
@@ -104,7 +127,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         return mValues.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.item_recycler_view)
         RecyclerView itemRecyclerView;
         @Bind(R.id.tv_date)
@@ -122,5 +145,23 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
             super(view);
             ButterKnife.bind(this, view);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (pictureFragmentItem != null) {
+                pictureFragmentItem.onItemClick(v);
+            }
+        }
     }
+
+    public interface PictureFragmentItem {
+        void onItemClick(View view);
+    }
+
+    PictureItemAdapter.PictureItemOnClick pictureItemOnClick = new PictureItemAdapter.PictureItemOnClick() {
+        @Override
+        public void onItemClick(View view, ImageBean imageBean, int position) {
+            UIUtils.showToast(mContext.getApplicationContext(), String.valueOf(position));
+        }
+    };
 }

@@ -12,9 +12,9 @@
         android:paddingTop="@dimen/item_text_height" />
 
     <LinearLayout
+        android:id="@+id/item_recycler_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_text_height"
-        android:id="@+id/item_recycler_title"
         android:background="@color/colorContentBackground"
         android:orientation="horizontal">
 
@@ -48,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/item_text_margin"
+            android:gravity="right"
             android:text="全选"
             android:textColor="@color/colorContentFont" />
 
