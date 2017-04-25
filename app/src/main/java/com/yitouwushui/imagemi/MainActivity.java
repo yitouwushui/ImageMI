@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.yitouwushui.imagemi.adapter.TabAdapter;
+import com.yitouwushui.imagemi.application.MyApplication;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +45,15 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (MyApplication.isSelectionMode){
+            MyApplication.isSelectionMode = false;
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @OnClick({R.id.tabLayout, R.id.viewPager})

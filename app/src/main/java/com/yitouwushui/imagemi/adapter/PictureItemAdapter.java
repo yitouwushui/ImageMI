@@ -70,11 +70,14 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
         holder.position = position;
         ImageBean imageBean = mImageBeanList.get(position);
         if (MyApplication.isSelectionMode) {
+            holder.imgChecked.setVisibility(View.VISIBLE);
             if (imageBean.getIsChecked()) {
                 holder.imgChecked.setImageResource(R.drawable.selected);
             } else {
                 holder.imgChecked.setImageResource(R.drawable.select_no);
             }
+        } else {
+            holder.imgChecked.setVisibility(View.GONE);
         }
         Glide.with(mContext)
                 .load(imageBean.getImagePath())

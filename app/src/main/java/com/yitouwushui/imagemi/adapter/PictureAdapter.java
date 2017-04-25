@@ -178,8 +178,13 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         public void onLongClick(View view, boolean isSelected, int position, long id) {
             UIUtils.showToast(mContext.getApplicationContext(), String.valueOf(id));
             MyApplication.isSelectionMode = true;
-            if (position < pictureItemAdapters.length && pictureItemAdapters[position] != null) {
-                pictureItemAdapters[position].notifyDataSetChanged();
+//            if (position < pictureItemAdapters.length && pictureItemAdapters[position] != null) {
+//                pictureItemAdapters[position].notifyDataSetChanged();
+//            }
+            for (int i = 0; i < pictureItemAdapters.length; i++) {
+                if (pictureItemAdapters[i] != null) {
+                    pictureItemAdapters[i].notifyDataSetChanged();
+                }
             }
         }
     };

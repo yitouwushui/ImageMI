@@ -41,7 +41,8 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
     FrameLayout topContainer;
 
     private Context mContext;
-    private List<MyImage> mMyImageList;
+    private List<MyImage> mMyImageList = new ArrayList<>();
+    ;
     private View mView;
     private PictureAdapter adapter;
 
@@ -61,17 +62,13 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (mMyImageList == null) {
-            PicturePresenter picturePresenter = new PicturePresenter(this, mContext);
-            picturePresenter.queryPicture(new Date());
-            mMyImageList = new ArrayList<>();
-        }
-        if (mView == null) {
+        if (mView == null || mMyImageList.size() == 0) {
             init(inflater, container);
         }
-        return mView;
-    }
 
+        return mView;
+
+    }
 
 
     private void init(LayoutInflater inflater, final ViewGroup container) {
@@ -84,6 +81,8 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
         list.setLayoutManager(new LinearLayoutManager(
                 mContext, LinearLayoutCompat.VERTICAL, false));
         adapter = new PictureAdapter(mMyImageList, mContext);
+        PicturePresenter picturePresenter = new PicturePresenter(this, mContext);
+        picturePresenter.queryPicture(new Date());
         adapter.setPictureFragmentItem(pictureFragmentItem);
         list.setAdapter(adapter);
 //
@@ -217,7 +216,7 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
     PictureAdapter.PictureFragmentItem pictureFragmentItem = new PictureAdapter.PictureFragmentItem() {
         @Override
         public void onItemClick(long[] ids) {
-            UIUtils.showToast(mContext,"");
+            UIUtils.showToast(mContext, "");
         }
     };
 
@@ -258,14 +257,20 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
 
     @Override
     public void queryPicture(List<MyImage> myImageList) {
-        adapter.setValues(myImageList);
-        ((Activity) mContext).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyDataSetChanged();
+        if (adapter == null) {
+            adapter = new PictureAdapter(myImageList, mContext);
+        } else {
+            adapter.setValues(myImageList);
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
 
-            }
-        });
+                }
+            });
+        }
+
+
     }
 
     @Override

@@ -41,16 +41,19 @@
             android:layout_margin="@dimen/item_text_margin"
             android:layout_weight="1"
             android:text="上海"
+            android:visibility="gone"
             android:textColor="@color/colorContentFont" />
 
         <TextView
             android:id="@+id/tv_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/item_text_margin"
             android:gravity="right"
             android:text="全选"
-            android:textColor="@color/colorContentFont" />
+            android:visibility="gone"
+            android:textColor="@color/colorContentFont"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
