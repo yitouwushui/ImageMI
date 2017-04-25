@@ -26,7 +26,6 @@ public class UIUtils {
             toast.setText(content);
         }
         toast.show();
-        toast = null;
     }
 
 }

@@ -4,11 +4,13 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#33AAFF</color>
     <color name="colorContentBackground">#F7F7F7</color>
+    <color name="colorWhite">#ffffff</color>
     <color name="colorContentFontHint">#7C7C7C</color>
     <color name="colorContentFont">#313131</color>
     <color name="colorTitleBackground">#EEEEF0</color>
     <color name="colorTitleFont">#606060</color>
     <color name="colorTitleFontSelect">#33AAFF</color>
     <color name="colorSpaceLine">#D2D2D2</color>
+    <color name="colorItemSelection">#22d2d2d2</color>
 
 </resources>

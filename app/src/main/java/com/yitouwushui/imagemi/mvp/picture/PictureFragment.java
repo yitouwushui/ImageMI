@@ -83,7 +83,8 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
         list = (RecyclerView) mView.findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(
                 mContext, LinearLayoutCompat.VERTICAL, false));
-        adapter = new PictureAdapter(mMyImageList, mContext,pictureFragmentItem);
+        adapter = new PictureAdapter(mMyImageList, mContext);
+        adapter.setPictureFragmentItem(pictureFragmentItem);
         list.setAdapter(adapter);
 //
 //        list.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -215,8 +216,8 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
 
     PictureAdapter.PictureFragmentItem pictureFragmentItem = new PictureAdapter.PictureFragmentItem() {
         @Override
-        public void onItemClick(View view) {
-            UIUtils.showToast(mContext, String.valueOf(view.hashCode()));
+        public void onItemClick(long[] ids) {
+            UIUtils.showToast(mContext,"");
         }
     };
 

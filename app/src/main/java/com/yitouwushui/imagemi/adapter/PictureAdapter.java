@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yitouwushui.imagemi.R;
+import com.yitouwushui.imagemi.application.MyApplication;
 import com.yitouwushui.imagemi.bean.ImageBean;
 import com.yitouwushui.imagemi.bean.MyImage;
 import com.yitouwushui.imagemi.mvp.picture.PictureFragment;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by ding on 2017/4/18.
@@ -44,16 +46,18 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
      */
     private int[] imageSpace = new int[3];
 
-    public PictureAdapter(List<MyImage> mValues, Context mContext,
-                          PictureFragmentItem pictureFragmentItem) {
+    public PictureAdapter(List<MyImage> mValues, Context mContext) {
         this.mValues.addAll(mValues);
         this.mContext = mContext;
         this.inflater = LayoutInflater.from(mContext);
-        this.pictureFragmentItem = pictureFragmentItem;
         measureImageSpace();
         // 存适配器
         pictureItemAdapters = new PictureItemAdapter[mValues.size()];
 
+    }
+
+    public void setPictureFragmentItem(PictureFragmentItem pictureFragmentItem) {
+        this.pictureFragmentItem = pictureFragmentItem;
     }
 
     public List<MyImage> getValues() {
@@ -63,6 +67,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     public void setValues(List<MyImage> mValues) {
         this.mValues.clear();
         this.mValues.addAll(mValues);
+        pictureItemAdapters = new PictureItemAdapter[mValues.size()];
     }
 
     public void addValues(List<MyImage> mValues) {
@@ -103,23 +108,20 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         }
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 (int) mContext.getResources().getDimension(R.dimen.item_text_height), Gravity.TOP);
+        holder.position = position;
         holder.itemRecyclerTitle.setLayoutParams(params);
         holder.tvDate.setText(myImage.getData());
         holder.itemRecyclerView.setLayoutManager(new GridLayoutManager(mContext, imageSpace[1], GridLayoutManager.VERTICAL, false));
-        PictureItemAdapter pictureItemAdapter = new PictureItemAdapter(myImage.imageBeanList, mContext, imageSpace, pictureItemOnClick);
         if (position < pictureItemAdapters.length) {
-            pictureItemAdapters[position] = pictureItemAdapter;
+            PictureItemAdapter pictureItemAdapter;
+            if (pictureItemAdapters[position] != null) {
+                pictureItemAdapter = pictureItemAdapters[position];
+            } else {
+                pictureItemAdapter = new PictureItemAdapter(myImage.imageBeanList, mContext, imageSpace, pictureItemOnClick);
+                pictureItemAdapters[position] = pictureItemAdapter;
+            }
+            holder.itemRecyclerView.setAdapter(pictureItemAdapter);
         }
-        holder.itemRecyclerView.setAdapter(pictureItemAdapter);
-//        holder.itemRecyclerTitle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (pictureFragmentItem != null) {
-//                    pictureFragmentItem.onItemClick(v);
-//                }
-//            }
-//        });
-
     }
 
     @Override
@@ -127,7 +129,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         return mValues.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.item_recycler_view)
         RecyclerView itemRecyclerView;
         @Bind(R.id.tv_date)
@@ -141,27 +143,44 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         @Bind(R.id.item_recycler_title)
         LinearLayout itemRecyclerTitle;
 
+        private int position;
+
+
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
-        @Override
+        @OnClick(R.id.tv_button)
         public void onClick(View v) {
             if (pictureFragmentItem != null) {
-                pictureFragmentItem.onItemClick(v);
+                PictureItemAdapter pictureItemAdapter = pictureItemAdapters[position];
+//                pictureItemAdapter.
+//                pictureFragmentItem.onItemClick();
             }
         }
     }
 
     public interface PictureFragmentItem {
-        void onItemClick(View view);
+        /**
+         * @param ids 选取的图片id
+         */
+        void onItemClick(long[] ids);
     }
 
     PictureItemAdapter.PictureItemOnClick pictureItemOnClick = new PictureItemAdapter.PictureItemOnClick() {
         @Override
         public void onItemClick(View view, ImageBean imageBean, int position) {
-            UIUtils.showToast(mContext.getApplicationContext(), String.valueOf(position));
+            UIUtils.showToast(mContext.getApplicationContext(), String.valueOf(imageBean.getId()));
+        }
+
+        @Override
+        public void onLongClick(View view, boolean isSelected, int position, long id) {
+            UIUtils.showToast(mContext.getApplicationContext(), String.valueOf(id));
+            MyApplication.isSelectionMode = true;
+            if (position < pictureItemAdapters.length && pictureItemAdapters[position] != null) {
+                pictureItemAdapters[position].notifyDataSetChanged();
+            }
         }
     };
 }

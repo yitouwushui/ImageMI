@@ -10,14 +10,17 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.yitouwushui.imagemi.R;
+import com.yitouwushui.imagemi.application.MyApplication;
 import com.yitouwushui.imagemi.bean.ImageBean;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * Created by ding on 2017/4/18.
@@ -25,10 +28,11 @@ import butterknife.OnClick;
 
 public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.ViewHolder> {
 
-    private ArrayList<ImageBean> mData = new ArrayList<>();
+    private ArrayList<ImageBean> mImageBeanList = new ArrayList<>();
     private Context mContext;
     private LayoutInflater inflater;
     private PictureItemOnClick pictureItemOnClick;
+    private HashSet<ImageBean> selectedHS = new HashSet<>();
     /**
      * imageSpace0 image size;
      * imageSpace1 每行显示图片的数量
@@ -36,13 +40,22 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
      */
     private int[] imageSpace = new int[3];
 
-    public PictureItemAdapter(List<ImageBean> mData, Context mContext,
+    public PictureItemAdapter(List<ImageBean> mImageBeanList, Context mContext,
                               int[] imageSpace, PictureItemOnClick pictureItemOnClick) {
-        this.mData.addAll(mData);
+        this.mImageBeanList.addAll(mImageBeanList);
         this.mContext = mContext;
         this.imageSpace = imageSpace;
         this.pictureItemOnClick = pictureItemOnClick;
         inflater = LayoutInflater.from(mContext);
+    }
+
+    public ArrayList<ImageBean> getSelectedId() {
+        return new ArrayList<>(selectedHS);
+    }
+
+    public void setImageBean(List<ImageBean> imageBeanList) {
+        mImageBeanList.clear();
+        mImageBeanList.addAll(imageBeanList);
     }
 
     @Override
@@ -52,15 +65,22 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.img.getLayoutParams();
-        holder.img.setLayoutParams(setLayoutParams(layoutParams, position, imageSpace[1], mData.size()));
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.imgPicture.getLayoutParams();
+        holder.imgPicture.setLayoutParams(setLayoutParams(layoutParams, position, imageSpace[1], mImageBeanList.size()));
         holder.position = position;
-        ImageBean imageBean = mData.get(position);
+        ImageBean imageBean = mImageBeanList.get(position);
+        if (MyApplication.isSelectionMode) {
+            if (imageBean.getIsChecked()) {
+                holder.imgChecked.setImageResource(R.drawable.selected);
+            } else {
+                holder.imgChecked.setImageResource(R.drawable.select_no);
+            }
+        }
         Glide.with(mContext)
                 .load(imageBean.getImagePath())
                 .fitCenter()
                 .crossFade()
-                .into(holder.img);
+                .into(holder.imgPicture);
     }
 
     /**
@@ -109,13 +129,15 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mImageBeanList.size();
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.img)
-        ImageView img;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.img_picture)
+        ImageView imgPicture;
+        @Bind(R.id.img_selected)
+        ImageView imgChecked;
 
         private int position;
 
@@ -124,16 +146,27 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
             ButterKnife.bind(this, view);
         }
 
-        @Override
+        @OnClick((R.id.item_recycler_item))
         public void onClick(View v) {
             if (pictureItemOnClick != null) {
-                pictureItemOnClick.onItemClick(v, mData.get(position), position);
+                pictureItemOnClick.onItemClick(v, mImageBeanList.get(position), position);
             }
+        }
+
+        @OnLongClick(R.id.item_recycler_item)
+        public boolean onLongClick(View v) {
+            if (pictureItemOnClick != null) {
+                pictureItemOnClick.onLongClick(v, false, position, mImageBeanList.get(position).getId());
+                return true;
+            }
+            return false;
         }
 
     }
 
     interface PictureItemOnClick {
         void onItemClick(View view, ImageBean imageBean, int position);
+
+        void onLongClick(View view, boolean isSelected, int position, long id);
     }
 }

@@ -42,6 +42,18 @@ public class ImageBean {
      * 图片拍摄地址
      */
     private String location;
+    /**
+     * 是否被选中
+     */
+    private boolean isChecked;
+
+    public boolean getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(boolean checked) {
+        isChecked = checked;
+    }
 
     public long getId() {
         return id;
