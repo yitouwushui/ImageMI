@@ -155,7 +155,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         public void onClick(View v) {
             if (pictureFragmentItem != null) {
                 PictureItemAdapter pictureItemAdapter = pictureItemAdapters[position];
-//                pictureItemAdapter.
+//                pictureItemAdapter.11
 //                pictureFragmentItem.onItemClick();
             }
         }
