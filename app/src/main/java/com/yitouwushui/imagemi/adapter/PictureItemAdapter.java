@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.yitouwushui.imagemi.R;
 import com.yitouwushui.imagemi.application.MyApplication;
 import com.yitouwushui.imagemi.bean.ImageBean;
+import com.yitouwushui.imagemi.uitls.UIUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -160,6 +161,7 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
         public boolean onLongClick(View v) {
             if (pictureItemOnClick != null) {
                 pictureItemOnClick.onLongClick(v, false, position, mImageBeanList.get(position).getId());
+                UIUtils.showToast(mContext,"长按");
                 return true;
             }
             return false;
