@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.yitouwushui.imagemi.adapter.TabAdapter;
 import com.yitouwushui.imagemi.application.MyApplication;
+import com.yitouwushui.imagemi.mvp.picture.PictureFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (MyApplication.isSelectionMode){
+        if (MyApplication.isSelectionMode) {
             MyApplication.isSelectionMode = false;
+            PictureFragment pictureFragment = (PictureFragment) tabAdapter.getItem(0);
+            pictureFragment.exitSelectionMode();
             return false;
         }
         return super.onKeyDown(keyCode, event);

@@ -153,15 +153,19 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
         @OnClick((R.id.item_recycler_item))
         public void onClick(View v) {
             if (pictureItemOnClick != null) {
+                ImageBean imageBean = mImageBeanList.get(position);
+                imageBean.setIsChecked(!imageBean.getIsChecked());
                 pictureItemOnClick.onItemClick(v, mImageBeanList.get(position), position);
+                PictureItemAdapter.this.notifyItemChanged(position);
             }
         }
 
         @OnLongClick(R.id.item_recycler_item)
         public boolean onLongClick(View v) {
             if (pictureItemOnClick != null) {
+                ImageBean imageBean = mImageBeanList.get(position);
+                imageBean.setIsChecked(!imageBean.getIsChecked());
                 pictureItemOnClick.onLongClick(v, false, position, mImageBeanList.get(position).getId());
-                UIUtils.showToast(mContext,"长按");
                 return true;
             }
             return false;

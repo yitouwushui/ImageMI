@@ -1,4 +1,4 @@
-package com.yitouwushui.imagemi.view;
+package com.yitouwushui.imagemi.common;
 
 import android.content.Context;
 import android.content.res.TypedArray;

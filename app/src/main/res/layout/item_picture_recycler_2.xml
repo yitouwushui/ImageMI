@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop" />
 
-    <com.yitouwushui.imagemi.view.RoundImageView
+    <com.yitouwushui.imagemi.common.RoundImageView
         android:id="@+id/img_selected"
         android:layout_width="@dimen/item_selection_size"
         android:layout_height="@dimen/item_selection_size"

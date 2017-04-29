@@ -171,7 +171,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     PictureItemAdapter.PictureItemOnClick pictureItemOnClick = new PictureItemAdapter.PictureItemOnClick() {
         @Override
         public void onItemClick(View view, ImageBean imageBean, int position) {
-            UIUtils.showToast(mContext.getApplicationContext(), String.valueOf(imageBean.getId()));
+//            UIUtils.showToast(mContext.getApplicationContext(), String.valueOf(imageBean.getId()));
         }
 
         @Override

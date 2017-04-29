@@ -42,7 +42,6 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
 
     private Context mContext;
     private List<MyImage> mMyImageList = new ArrayList<>();
-    ;
     private View mView;
     private PictureAdapter adapter;
 
@@ -219,6 +218,15 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
             UIUtils.showToast(mContext, "");
         }
     };
+
+    /**
+     * 退出选择模式
+     */
+    public void exitSelectionMode() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
