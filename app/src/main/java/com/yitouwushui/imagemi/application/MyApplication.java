@@ -11,7 +11,7 @@ public class MyApplication extends Application {
     /**
      * 是否处于选择模式中
      */
-    public static boolean isSelectionMode = false;
+    public static volatile boolean isSelectionMode = false;
 
     @Override
     public void onCreate() {

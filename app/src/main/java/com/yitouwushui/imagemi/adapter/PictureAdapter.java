@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.yitouwushui.imagemi.uitls.ScreenUtils;
 import com.yitouwushui.imagemi.uitls.UIUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -34,11 +36,18 @@ import butterknife.OnClick;
 
 public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHolder> {
 
+    public static final int MULTIPLES = 10000;
     private List<MyImage> mValues = new ArrayList<>();
     private Context mContext;
     private LayoutInflater inflater;
     private PictureItemAdapter[] pictureItemAdapters;
     private PictureFragmentItem pictureFragmentItem;
+    /**
+     * 用来记录被选择的图片
+     */
+    private SparseArray<ImageBean> imageBeanSparseArray = new SparseArray<>();
+
+
     /**
      * imageSpace0 image size;
      * imageSpace1 每行显示图片的数量
@@ -53,7 +62,13 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         measureImageSpace();
         // 存适配器
         pictureItemAdapters = new PictureItemAdapter[mValues.size()];
+    }
 
+    /**
+     * 清除所有已选择的图片
+     */
+    public void clearSelectedData() {
+        imageBeanSparseArray.clear();
     }
 
     public void setPictureFragmentItem(PictureFragmentItem pictureFragmentItem) {
@@ -117,7 +132,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
             if (pictureItemAdapters[position] != null) {
                 pictureItemAdapter = pictureItemAdapters[position];
             } else {
-                pictureItemAdapter = new PictureItemAdapter(myImage.imageBeanList, mContext, imageSpace, pictureItemOnClick);
+                pictureItemAdapter = new PictureItemAdapter(myImage.imageBeanList, position, mContext, imageSpace, pictureItemOnClick);
                 pictureItemAdapters[position] = pictureItemAdapter;
             }
             holder.itemRecyclerView.setAdapter(pictureItemAdapter);
@@ -155,8 +170,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         public void onClick(View v) {
             if (pictureFragmentItem != null) {
                 PictureItemAdapter pictureItemAdapter = pictureItemAdapters[position];
-//                pictureItemAdapter.
-//                pictureFragmentItem.onItemClick();
+
             }
         }
     }
@@ -166,26 +180,57 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
          * @param ids 选取的图片id
          */
         void onItemClick(long[] ids);
+
+        /**
+         * 长按
+         */
+        void onItemLongClick();
     }
 
     PictureItemAdapter.PictureItemOnClick pictureItemOnClick = new PictureItemAdapter.PictureItemOnClick() {
         @Override
-        public void onItemClick(View view, ImageBean imageBean, int position) {
-//            UIUtils.showToast(mContext.getApplicationContext(), String.valueOf(imageBean.getId()));
+        public void onItemClick(View view, ImageBean imageBean, int adapterPosition, int position) {
+            if (isContains(adapterPosition, position)) {
+                imageBeanSparseArray.remove(getItemKey(adapterPosition, position));
+            } else {
+                imageBeanSparseArray.put(getItemKey(adapterPosition, position), imageBean);
+            }
         }
 
         @Override
-        public void onLongClick(View view, boolean isSelected, int position, long id) {
-            UIUtils.showToast(mContext.getApplicationContext(), String.valueOf(id));
+        public void onLongClick(View view, ImageBean imageBean, int adapterPosition, int position) {
             MyApplication.isSelectionMode = true;
-//            if (position < pictureItemAdapters.length && pictureItemAdapters[position] != null) {
-//                pictureItemAdapters[position].notifyDataSetChanged();
-//            }
+            pictureFragmentItem.onItemLongClick();
+            if (isContains(adapterPosition, position)) {
+                imageBeanSparseArray.remove(getItemKey(adapterPosition, position));
+            } else {
+                imageBeanSparseArray.put(getItemKey(adapterPosition, position), imageBean);
+            }
             for (int i = 0; i < pictureItemAdapters.length; i++) {
                 if (pictureItemAdapters[i] != null) {
                     pictureItemAdapters[i].notifyDataSetChanged();
                 }
             }
         }
+
+        @Override
+        public boolean isSelectionItem(int adapterPosition, int itemPosition) {
+            return isContains(adapterPosition, itemPosition);
+        }
     };
+
+    private boolean isContains(int adapterPosition, int itemPosition) {
+        return imageBeanSparseArray.get(getItemKey(adapterPosition, itemPosition)) != null;
+    }
+
+    /**
+     * 自定义key
+     *
+     * @param adapterPosition 子适配器位置
+     * @param itemPosition    item在子适配器中的位置
+     * @return
+     */
+    private int getItemKey(int adapterPosition, int itemPosition) {
+        return adapterPosition * MULTIPLES + itemPosition;
+    }
 }

@@ -21,7 +21,6 @@
         android:layout_alignBottom="@+id/img_picture"
         android:layout_alignEnd="@+id/img_picture"
         android:layout_margin="@dimen/item_selection_image_margin"
-        android:alpha="0.5"
         android:visibility="gone"
         android:src="@drawable/select_no"
         app:type="circle" />
