@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
     ViewPager viewPager;
 
     View head;
+    WindowManager wm;
+    WindowManager.LayoutParams lp;
 
     TabAdapter tabAdapter;
 
@@ -91,15 +93,15 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
 
     @Override
     protected void onPause() {
-        WindowManager windowManager = getWindowManager();
-        if (head.getParent() != null) {
-            windowManager.removeView(head);
-        }
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
+        WindowManager windowManager = getWindowManager();
+        if (head.getParent() != null) {
+            windowManager.removeView(head);
+        }
         super.onDestroy();
     }
 
@@ -120,6 +122,57 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
         WindowManager windowManager = MainActivity.this.getWindowManager();
         windowManager.addView(head, layoutParams);
     }
-
+//
+//    WindowManager wm ;
+//    View view;
+//    WindowManager.LayoutParams lp;
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.main);
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        view = inflater.inflate(R.layout.add, null);
+//
+//        lp = new WindowManager.LayoutParams(LayoutParams.WRAP_CONTENT,
+//                LayoutParams.WRAP_CONTENT,
+//                WindowManager.LayoutParams.TYPE_APPLICATION,
+//                // 设置为无焦点状态
+//                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+//                        | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, // 没有边界
+//                // 半透明效果
+//                PixelFormat.TRANSLUCENT);
+//        lp.gravity = Gravity.TOP;
+//// 重要 这就是添加动画的地方
+//        lp.windowAnimations = R.style.anim_view;
+//        wm= (WindowManager) getSystemService(WINDOW_SERVICE);
+//        wm.addView(view, lp);
+//
+//        Button bu = (Button)findViewById(R.id.button1);
+//        bu.setOnClickListener(new Button.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//                view.setVisibility(View.VISIBLE);
+//            }
+//        });
+//        Button bu2 = (Button)findViewById(R.id.button2);
+//        bu2.setOnClickListener(new Button.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//                view.setVisibility(View.GONE);
+//            }
+//        });
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//
+//        wm.removeView(view);
+//        super.onDestroy();
+//    }
 
 }
+

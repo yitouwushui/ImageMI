@@ -2,27 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/main_tab_height"
+    android:background="@color/colorTitleBackground"
     android:orientation="horizontal">
 
     <Button
-        android:layout_width="@dimen/top_bar_bt_width"
-        android:layout_height="match_parent"
         android:id="@+id/bt_cancel"
-        android:text="取消"
+        android:layout_width="@dimen/top_bar_bt_width"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin" />
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:text="取消"
+        android:layout_height="@dimen/top_bar_bt_height" />
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:text="请选择项目"
+        android:gravity="center" />
 
     <Button
-        android:layout_width="@dimen/top_bar_bt_width"
-        android:layout_height="match_parent"
         android:id="@+id/bt_check"
-        android:text="全选"
+        android:layout_width="@dimen/top_bar_bt_width"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin" />
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:text="全选"
+        android:layout_height="@dimen/top_bar_bt_height" />
 
 </LinearLayout>

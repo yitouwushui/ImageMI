@@ -9,4 +9,9 @@
         <item name="android:listDivider">@drawable/shape_divider_bg</item>
     </style>
 
+    <!--<style name="anim_view">-->
+        <!--<item name="@android:windowEnterAnimation">@anim/anin_top_out</item>-->
+        <!--<item name="@android:windowExitAnimation">@anim/out</item>-->
+    <!--</style>-->
+
 </resources>
