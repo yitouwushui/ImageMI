@@ -93,7 +93,6 @@ public class RoundImageView extends ImageView {
             mWidth = Math.min(getMeasuredWidth(), getMeasuredHeight());
             mRadius = mWidth / 2;
             setMeasuredDimension(mWidth, mWidth);
-            LogUtils.d("d123", "mWidth:" + mWidth);
         }
     }
 
@@ -126,10 +125,8 @@ public class RoundImageView extends ImageView {
     private void setUpShader() {
         Drawable drawable = getDrawable();
         if (drawable == null) {
-            LogUtils.d("d123", "drawable is null");
             return;
         }
-        LogUtils.d("d123","drawable" + drawable.hashCode());
         Bitmap bmp = drawableToBitmap(drawable);
         // 将bmp作为着色器，就是在指定区域内绘制bmp
         // CLAMP 拉伸   REPEAT 重复   MIRROR 镜像
