@@ -14,14 +14,13 @@
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop" />
 
-    <com.yitouwushui.imagemi.view.RoundImageView
+    <com.yitouwushui.imagemi.common.RoundImageView
         android:id="@+id/img_selected"
         android:layout_width="@dimen/item_selection_size"
         android:layout_height="@dimen/item_selection_size"
         android:layout_alignBottom="@+id/img_picture"
         android:layout_alignEnd="@+id/img_picture"
         android:layout_margin="@dimen/item_selection_image_margin"
-        android:alpha="0.5"
         android:visibility="gone"
         android:src="@drawable/select_no"
         app:type="circle" />

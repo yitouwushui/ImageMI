@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ import butterknife.ButterKnife;
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link }
  * interface.
  */
 public class PictureFragment extends Fragment implements PictureContract.IView {
@@ -42,9 +43,9 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
 
     private Context mContext;
     private List<MyImage> mMyImageList = new ArrayList<>();
-    ;
     private View mView;
     private PictureAdapter adapter;
+    private OnActionFragmentListener onActionFragmentListener;
 
 //    private TopView mTopView;
 //    private IView topView;
@@ -218,7 +219,22 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
         public void onItemClick(long[] ids) {
             UIUtils.showToast(mContext, "");
         }
+
+        @Override
+        public void onItemLongClick() {
+            onActionFragmentListener.onLongClick(null);
+        }
     };
+
+    /**
+     * 退出选择模式
+     */
+    public void exitSelectionMode() {
+        if (adapter != null) {
+            adapter.clearSelectedData();
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -294,21 +310,25 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
     }
 
 
-    public interface OnListFragmentInteractionListener {
+    public interface OnActionFragmentListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(MyImage item);
+        void onLongClick(View view);
     }
 
-    class TopView {
-        @Bind(R.id.tv_date)
-        TextView tvDate;
-        @Bind(R.id.line)
-        TextView line;
-        @Bind(R.id.tv_location)
-        TextView tvLocation;
-
-        TopView(View view) {
-            ButterKnife.bind(this, view);
-        }
+    public void setOnActionFragmentListener(OnActionFragmentListener onActionFragmentListener) {
+        this.onActionFragmentListener = onActionFragmentListener;
     }
+
+    //    class TopView {
+//        @Bind(R.id.tv_date)
+//        TextView tvDate;
+//        @Bind(R.id.line)
+//        TextView line;
+//        @Bind(R.id.tv_location)
+//        TextView tvLocation;
+//
+//        TopView(View view) {
+//            ButterKnife.bind(this, view);
+//        }
+//    }
 }

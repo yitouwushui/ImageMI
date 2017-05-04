@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.yitouwushui.imagemi.R;
 import com.yitouwushui.imagemi.application.MyApplication;
 import com.yitouwushui.imagemi.bean.ImageBean;
+import com.yitouwushui.imagemi.uitls.UIUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,8 +32,11 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
     private ArrayList<ImageBean> mImageBeanList = new ArrayList<>();
     private Context mContext;
     private LayoutInflater inflater;
+    /**
+     * 当前适配器在父适配器的位置
+     */
+    private int adapterPosition;
     private PictureItemOnClick pictureItemOnClick;
-    private HashSet<ImageBean> selectedHS = new HashSet<>();
     /**
      * imageSpace0 image size;
      * imageSpace1 每行显示图片的数量
@@ -40,17 +44,14 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
      */
     private int[] imageSpace = new int[3];
 
-    public PictureItemAdapter(List<ImageBean> mImageBeanList, Context mContext,
+    public PictureItemAdapter(List<ImageBean> mImageBeanList, int adapterPosition, Context mContext,
                               int[] imageSpace, PictureItemOnClick pictureItemOnClick) {
         this.mImageBeanList.addAll(mImageBeanList);
         this.mContext = mContext;
+        this.adapterPosition = adapterPosition;
         this.imageSpace = imageSpace;
         this.pictureItemOnClick = pictureItemOnClick;
         inflater = LayoutInflater.from(mContext);
-    }
-
-    public ArrayList<ImageBean> getSelectedId() {
-        return new ArrayList<>(selectedHS);
     }
 
     public void setImageBean(List<ImageBean> imageBeanList) {
@@ -71,7 +72,7 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
         ImageBean imageBean = mImageBeanList.get(position);
         if (MyApplication.isSelectionMode) {
             holder.imgChecked.setVisibility(View.VISIBLE);
-            if (imageBean.getIsChecked()) {
+            if (pictureItemOnClick.isSelectionItem(adapterPosition, position)) {
                 holder.imgChecked.setImageResource(R.drawable.selected);
             } else {
                 holder.imgChecked.setImageResource(R.drawable.select_no);
@@ -152,14 +153,22 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
         @OnClick((R.id.item_recycler_item))
         public void onClick(View v) {
             if (pictureItemOnClick != null) {
-                pictureItemOnClick.onItemClick(v, mImageBeanList.get(position), position);
+                if (MyApplication.isSelectionMode) {
+                    // 选择模式
+                    ImageBean imageBean = mImageBeanList.get(position);
+                    pictureItemOnClick.onItemClick(v, imageBean, adapterPosition, position);
+                    PictureItemAdapter.this.notifyItemChanged(position);
+                } else {
+                    // 正常模式
+                }
             }
         }
 
         @OnLongClick(R.id.item_recycler_item)
         public boolean onLongClick(View v) {
             if (pictureItemOnClick != null) {
-                pictureItemOnClick.onLongClick(v, false, position, mImageBeanList.get(position).getId());
+                ImageBean imageBean = mImageBeanList.get(position);
+                pictureItemOnClick.onLongClick(v, imageBean, adapterPosition, position);
                 return true;
             }
             return false;
@@ -168,8 +177,33 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
     }
 
     interface PictureItemOnClick {
-        void onItemClick(View view, ImageBean imageBean, int position);
+        /**
+         * 子RecycleView item
+         *
+         * @param view            当前item
+         * @param imageBean       图片对象
+         * @param adapterPosition 适配器位置
+         * @param position        item 位置
+         */
+        void onItemClick(View view, ImageBean imageBean, int adapterPosition, int position);
 
-        void onLongClick(View view, boolean isSelected, int position, long id);
+        /**
+         * 子RecycleView item
+         *
+         * @param view            当前item
+         * @param imageBean       图片对象
+         * @param adapterPosition 适配器位置
+         * @param position        item 位置
+         */
+        void onLongClick(View view, ImageBean imageBean, int adapterPosition, int position);
+
+        /**
+         * 是否被选中
+         *
+         * @param adapterPosition
+         * @param itemPosition
+         * @return
+         */
+        boolean isSelectionItem(int adapterPosition, int itemPosition);
     }
 }

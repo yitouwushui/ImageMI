@@ -1,4 +1,4 @@
-package com.yitouwushui.imagemi.view;
+package com.yitouwushui.imagemi.common;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

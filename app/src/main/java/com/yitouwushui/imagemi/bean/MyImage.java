@@ -1,7 +1,5 @@
 package com.yitouwushui.imagemi.bean;
 
-import android.graphics.Bitmap;
-
 import java.util.ArrayList;
 import java.util.List;
 
