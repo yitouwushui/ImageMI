@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ScreenUtils.StatusBarLightMode(this);
         setContentView(R.layout.activity_main);
         init();
 
@@ -101,28 +102,6 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
     public void onLongClick(View v) {
         if (header == null) {
             header = MainActivity.this.getLayoutInflater().inflate(R.layout.picture_header, null);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    (int) getResources().getDimension(R.dimen.main_tab_height));
-            int statusHeight = ScreenUtils.getStatusHeight(this);
-//            header.setPadding(0, statusHeight, 0, 0);
-            layoutParams.height += statusHeight;
-            header.setLayoutParams(layoutParams);
-
-//        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.WRAP_CONTENT,
-//                0, 0, PixelFormat.TRANSPARENT);
-//        layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL;
-//        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-//                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-//                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
-//        layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
-//        layoutParams.x = 0;
-//        layoutParams.y = 0;
-//        WindowManager windowManager = MainActivity.this.getWindowManager();
-//        windowManager.addView(this.header, layoutParams);
-
             lp = new WindowManager.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -133,13 +112,13 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
                     // 半透明效果
                     PixelFormat.TRANSLUCENT);
             lp.gravity = Gravity.TOP;
-//            lp.verticalMargin = statusHeight;
             // 重要 这就是添加动画的地方
             lp.windowAnimations = R.style.anim_view;
             wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         }
-        wm.addView(header, lp);
-
+        if (header.getParent() == null) {
+            wm.addView(header, lp);
+        }
     }
 
 }
