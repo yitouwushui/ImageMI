@@ -17,6 +17,8 @@ import com.yitouwushui.imagemi.application.MyApplication;
 import com.yitouwushui.imagemi.mvp.picture.PictureFragment;
 import com.yitouwushui.imagemi.uitls.ScreenUtils;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
         setContentView(R.layout.activity_main);
         init();
 
-
+//        ThreadPoolExecutor
     }
 
     private void init() {
