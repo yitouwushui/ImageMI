@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * Created by yitouwushui on 2017/4/23.
  */
-
 public class PicturePresenter implements PictureContract {
 
     @NonNull
