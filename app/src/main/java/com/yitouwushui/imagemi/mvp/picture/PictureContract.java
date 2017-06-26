@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * Created by yitouwushui on 2017/4/22.
  */
-
 public interface PictureContract {
     interface IView extends BaseView<Presenter> {
         /**
