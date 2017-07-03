@@ -46,7 +46,6 @@ public interface PictureContract {
         void error();
     }
 
-
     interface Presenter extends BasePresenter {
         /**
          * 添加图片
@@ -80,41 +79,5 @@ public interface PictureContract {
          * @param date
          */
         void query(Date date);
-    }
-
-    interface IModel {
-        /**
-         * 添加图片
-         *
-         * @param
-         */
-        void add();
-
-        /**
-         * 删除图片List
-         *
-         * @param myImageList
-         */
-        void del(List<MyImage> myImageList);
-
-        /**
-         * 删除图片
-         *
-         * @param imageId
-         */
-        void del(int[] imageId);
-
-        /**
-         * 查询图片
-         */
-        void query();
-
-        /**
-         * 查询某一天的图片
-         *
-         * @param date
-         */
-        void query(Date date);
-
     }
 }

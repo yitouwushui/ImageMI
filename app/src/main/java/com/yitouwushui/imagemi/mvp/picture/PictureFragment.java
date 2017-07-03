@@ -83,7 +83,7 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
                 mContext, LinearLayoutCompat.VERTICAL, false));
         adapter = new PictureAdapter(mMyImageList, mContext);
         PicturePresenter picturePresenter = new PicturePresenter(this, mContext);
-        picturePresenter.queryPicture(new Date());
+        picturePresenter.query(new Date());
         adapter.setPictureFragmentItem(pictureFragmentItem);
         list.setAdapter(adapter);
 //
@@ -295,17 +295,7 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
     }
 
     @Override
-    public void showNetworkFail() {
-
-    }
-
-    @Override
-    public void showNetworkFail(String err) {
-
-    }
-
-    @Override
-    public void showToast(String toast) {
+    public void setPresenter(PictureContract.Presenter presenter) {
 
     }
 
