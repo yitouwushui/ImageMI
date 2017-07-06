@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
 
     @Override
     protected void onDestroy() {
-        if (header.getParent() != null) {
+        if (header!= null && header.getParent() != null) {
             wm.removeView(header);
         }
         super.onDestroy();

@@ -17,13 +17,10 @@ import com.yitouwushui.imagemi.R;
 import com.yitouwushui.imagemi.application.MyApplication;
 import com.yitouwushui.imagemi.bean.ImageBean;
 import com.yitouwushui.imagemi.bean.MyImage;
-import com.yitouwushui.imagemi.mvp.picture.PictureFragment;
 import com.yitouwushui.imagemi.uitls.DensityUtils;
 import com.yitouwushui.imagemi.uitls.ScreenUtils;
-import com.yitouwushui.imagemi.uitls.UIUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -125,7 +122,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
                 (int) mContext.getResources().getDimension(R.dimen.item_text_height), Gravity.TOP);
         holder.position = position;
         holder.itemRecyclerTitle.setLayoutParams(params);
-        holder.tvDate.setText(myImage.getData());
+        holder.tvDate.setText(myImage.getDate());
         holder.itemRecyclerView.setLayoutManager(new GridLayoutManager(mContext, imageSpace[1], GridLayoutManager.VERTICAL, false));
         if (position < pictureItemAdapters.length) {
             PictureItemAdapter pictureItemAdapter;

@@ -83,7 +83,7 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
                 mContext, LinearLayoutCompat.VERTICAL, false));
         adapter = new PictureAdapter(mMyImageList, mContext);
         PicturePresenter picturePresenter = new PicturePresenter(this, mContext);
-        picturePresenter.query(new Date());
+        picturePresenter.query();
         adapter.setPictureFragmentItem(pictureFragmentItem);
         list.setAdapter(adapter);
 //
@@ -277,16 +277,8 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
             adapter = new PictureAdapter(myImageList, mContext);
         } else {
             adapter.setValues(myImageList);
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-
-                }
-            });
+            adapter.notifyDataSetChanged();
         }
-
-
     }
 
     @Override

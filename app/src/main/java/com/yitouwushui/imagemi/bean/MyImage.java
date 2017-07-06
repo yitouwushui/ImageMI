@@ -5,11 +5,21 @@ import java.util.List;
 
 /**
  * Created by ding on 2017/4/14.
+ * 一天的图片
  */
 public class MyImage {
+    /**
+     * 日期long
+     */
     public Long id;
+    /**
+     * 标题
+     */
     public String content;
-    public String data;
+    /**
+     * 格式化的日期
+     */
+    public String date;
     public List<Integer> images = new ArrayList<>();
     public List<ImageBean> imageBeanList = new ArrayList<>();
 
@@ -50,12 +60,12 @@ public class MyImage {
         this.content = content;
     }
 
-    public String getData() {
-        return data;
+    public String getDate() {
+        return date;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public List<Integer> getImages() {

@@ -43,9 +43,29 @@ public class ImageBean {
      */
     private String location;
     /**
+     * 地区
+     */
+    private String region;
+    /**
      * 是否被选中
      */
     private boolean isChecked;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
     public boolean getIsChecked() {
         return isChecked;

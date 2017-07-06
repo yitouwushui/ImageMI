@@ -74,15 +74,15 @@ public class TimeUtils {
 //     */
 //    public long getDayString(long time) {
 //        Date date = new Date();
-//        String data = "";
+//        String date = "";
 //        try {
 //            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年mm月dd日");
 //            date.setTime(time);
-//            data = sdf.format(date);
+//            date = sdf.format(date);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        return data;
+//        return date;
 //    }
 
     /**

@@ -79,5 +79,6 @@ public interface PictureContract {
          * @param date
          */
         void query(Date date);
+
     }
 }
