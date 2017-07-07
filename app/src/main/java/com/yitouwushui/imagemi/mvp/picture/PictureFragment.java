@@ -1,6 +1,5 @@
 package com.yitouwushui.imagemi.mvp.picture;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,9 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.yitouwushui.imagemi.R;
 import com.yitouwushui.imagemi.adapter.PictureAdapter;
@@ -21,7 +18,6 @@ import com.yitouwushui.imagemi.bean.MyImage;
 import com.yitouwushui.imagemi.uitls.UIUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -83,7 +79,7 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
                 mContext, LinearLayoutCompat.VERTICAL, false));
         adapter = new PictureAdapter(mMyImageList, mContext);
         PicturePresenter picturePresenter = new PicturePresenter(this, mContext);
-        picturePresenter.query();
+        picturePresenter.queryPicture();
         adapter.setPictureFragmentItem(pictureFragmentItem);
         list.setAdapter(adapter);
 //

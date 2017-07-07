@@ -20,7 +20,15 @@ public class MyImage {
      * 格式化的日期
      */
     public String date;
-    public List<Integer> images = new ArrayList<>();
+    /**
+     * Latitude and longitude
+     * 先纬度和后经度，逗号分隔
+     * 例：20.000,30.112
+     */
+    public List<String> location = new ArrayList<>();
+    /**
+     * 图片基类list
+     */
     public List<ImageBean> imageBeanList = new ArrayList<>();
 
     public MyImage(Long id, String content) {
@@ -28,20 +36,7 @@ public class MyImage {
         this.content = content;
     }
 
-    public MyImage(Long id, String content, List<Integer> images) {
-        this.id = id;
-        this.content = content;
-        this.images.addAll(images);
-    }
-
     public MyImage() {
-    }
-
-    public MyImage(Long id, String content, List<Integer> images, List<ImageBean> imageBeanList) {
-        this.id = id;
-        this.content = content;
-        this.images = images;
-        this.imageBeanList = imageBeanList;
     }
 
     public Long getId() {
@@ -68,12 +63,12 @@ public class MyImage {
         this.date = date;
     }
 
-    public List<Integer> getImages() {
-        return images;
+    public List<String> getLocation() {
+        return location;
     }
 
-    public void setImages(List<Integer> images) {
-        this.images = images;
+    public void setLocation(List<String> location) {
+        this.location = location;
     }
 
     public List<ImageBean> getImageBeanList() {

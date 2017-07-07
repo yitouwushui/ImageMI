@@ -4,6 +4,7 @@ import com.yitouwushui.imagemi.bean.MyImage;
 import com.yitouwushui.imagemi.mvp.base.BasePresenter;
 import com.yitouwushui.imagemi.mvp.base.BaseView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,33 +53,39 @@ public interface PictureContract {
          *
          * @param
          */
-        void add();
+        void addPicture();
 
         /**
          * 删除图片List
          *
          * @param myImageList
          */
-        void del(List<MyImage> myImageList);
+        void delPicture(List<MyImage> myImageList);
 
         /**
          * 删除图片
          *
          * @param imageId
          */
-        void del(int[] imageId);
+        void delPicture(int[] imageId);
 
         /**
          * 查询图片
          */
-        void query();
+        void queryPicture();
+
+        /**
+         * 查询坐标
+         * @param myImages
+         */
+        void queryLocation(ArrayList<MyImage> myImages);
 
         /**
          * 查询某一天的图片
          *
          * @param date
          */
-        void query(Date date);
+        void queryPicture(Date date);
 
     }
 }

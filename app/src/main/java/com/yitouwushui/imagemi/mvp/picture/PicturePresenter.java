@@ -38,24 +38,22 @@ public class PicturePresenter implements PictureContract.Presenter {
     }
 
     @Override
-    public void add() {
+    public void addPicture() {
 
     }
 
     @Override
-    public void del(List<MyImage> myImageList) {
+    public void delPicture(List<MyImage> myImageList) {
 
     }
 
     @Override
-    public void del(int[] imageId) {
+    public void delPicture(int[] imageId) {
 
     }
 
     @Override
-    public void query() {
-
-
+    public void queryPicture() {
         Observable.create(new Observable.OnSubscribe<ArrayList<MyImage>>() {
             @Override
             public void call(Subscriber<? super ArrayList<MyImage>> subscriber) {
@@ -70,6 +68,7 @@ public class PicturePresenter implements PictureContract.Presenter {
                         MediaStore.Images.Media.DATE_TAKEN + " DESC"); // 降序排列
                 ArrayList<MyImage> myImageList = new ArrayList<>();
                 ArrayList<ImageBean> imageBeenList = new ArrayList<>();
+                ArrayList<String> coordinates = new ArrayList<>();
                 long time = 0;
                 if (cursor != null) {
                     while (cursor.moveToNext()) {
@@ -82,20 +81,34 @@ public class PicturePresenter implements PictureContract.Presenter {
                         imageBean.setId(id);
                         imageBean.setImagePath(path);
                         imageBean.setDateL(date);
-                        imageBean.setLocation(latitude == null ? null : latitude + "," + longitude);
+                        if (latitude != null && longitude != null){
+                            imageBean.setLocation(latitude + "," + longitude);
+                        }
                         if (time == 0) {
                             time = TimeUtils.getDayTimeByTime(date);
                         }
                         if (date >= time) {
+                            // 同一天
                             imageBeenList.add(imageBean);
+                            if (imageBean.getLocation() != null){
+                                coordinates.add(imageBean.getLocation());
+                            }
                         } else {
+                            // 下一天，先保存
                             MyImage myImage = new MyImage();
                             myImage.setId(time);
                             myImage.setDate(TimeUtils.getDayString(time));
                             myImage.setImageBeanList(imageBeenList);
+                            myImage.setLocation(coordinates);
                             myImageList.add(myImage);
+                            // new 新的图片list, 和坐标list
                             imageBeenList = new ArrayList<>();
                             imageBeenList.add(imageBean);
+                            coordinates = new ArrayList<>();
+                            if (imageBean.getLocation() != null){
+                                coordinates.add(imageBean.getLocation());
+                            }
+                            // 时间变为下一天
                             time = TimeUtils.getDayTimeByTime(date);
                         }
                     }
@@ -104,8 +117,11 @@ public class PicturePresenter implements PictureContract.Presenter {
                     myImage.setId(time);
                     myImage.setDate(TimeUtils.getDayString(time));
                     myImage.setImageBeanList(imageBeenList);
+                    myImage.setLocation(coordinates);
                     myImageList.add(myImage);
                     cursor.close();
+                    // 查询网络地理位置
+                    queryLocation(myImageList);
                     subscriber.onNext(myImageList);
                 }
             }
@@ -114,7 +130,6 @@ public class PicturePresenter implements PictureContract.Presenter {
                 .subscribe(new Observer<ArrayList<MyImage>>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
@@ -131,7 +146,12 @@ public class PicturePresenter implements PictureContract.Presenter {
     }
 
     @Override
-    public void query(Date date) {
+    public void queryLocation(ArrayList<MyImage> myImages) {
+
+    }
+
+    @Override
+    public void queryPicture(Date date) {
 
     }
 
