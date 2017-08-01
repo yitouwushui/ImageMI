@@ -43,7 +43,18 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
         setContentView(R.layout.activity_main);
         init();
 
-//        ThreadPoolExecutor
+//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addNetworkInterceptor(
+//                        new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
+//                .cookieJar(new CookieManger(context))
+//                .addInterceptor(loginInterceptor)
+//                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+//                .build();
+//
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .client(okHttpClient)
+//                .build();
     }
 
     private void init() {
