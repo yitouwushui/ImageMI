@@ -23,7 +23,7 @@ import com.yitouwushui.imagemi.uitls.ScreenUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -142,17 +142,17 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.item_recycler_view)
+        @BindView(R.id.item_recycler_view)
         RecyclerView itemRecyclerView;
-        @Bind(R.id.tv_date)
+        @BindView(R.id.tv_date)
         TextView tvDate;
-        @Bind(R.id.line)
+        @BindView(R.id.line)
         TextView line;
-        @Bind(R.id.tv_location)
+        @BindView(R.id.tv_location)
         TextView tvLocation;
-        @Bind(R.id.tv_button)
+        @BindView(R.id.tv_button)
         TextView tvButton;
-        @Bind(R.id.item_recycler_title)
+        @BindView(R.id.item_recycler_title)
         LinearLayout itemRecyclerTitle;
 
         private int position;

@@ -10,24 +10,24 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.yitouwushui.imagemi.adapter.TabAdapter;
 import com.yitouwushui.imagemi.application.MyApplication;
 import com.yitouwushui.imagemi.mvp.picture.PictureFragment;
 import com.yitouwushui.imagemi.uitls.ScreenUtils;
 
-import java.util.concurrent.ThreadPoolExecutor;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * @author ding
+ */
 public class MainActivity extends AppCompatActivity implements PictureFragment.OnActionFragmentListener {
 
-    @Bind(R.id.tabLayout)
+    @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-    @Bind(R.id.viewPager)
+    @BindView(R.id.viewPager)
     ViewPager viewPager;
 
     View header;
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
         tabLayout.setBackgroundColor(getResources().getColor(R.color.colorTitleBackground));
         tabLayout.setTabTextColors(getResources().getColor(R.color.colorTitleFont), getResources().getColor(R.color.colorTitleFontSelect));
         tabAdapter = new TabAdapter(getSupportFragmentManager());
+
         PictureFragment pictureFragment = (PictureFragment) tabAdapter.getItem(0);
         pictureFragment.setOnActionFragmentListener(MainActivity.this);
         viewPager.setAdapter(tabAdapter);

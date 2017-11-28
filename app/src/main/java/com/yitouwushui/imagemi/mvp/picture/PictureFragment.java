@@ -20,8 +20,9 @@ import com.yitouwushui.imagemi.uitls.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A fragment representing a list of Items.
@@ -32,9 +33,9 @@ import butterknife.ButterKnife;
 public class PictureFragment extends Fragment implements PictureContract.IView {
 
     private static final String TAG = "PictureFragment";
-    @Bind(R.id.list)
+    @BindView(R.id.list)
     RecyclerView list;
-    @Bind(R.id.topContainer)
+    @BindView(R.id.topContainer)
     FrameLayout topContainer;
 
     private Context mContext;
@@ -42,6 +43,8 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
     private View mView;
     private PictureAdapter adapter;
     private OnActionFragmentListener onActionFragmentListener;
+    private Unbinder unbinder;
+
 
 //    private TopView mTopView;
 //    private IView topView;
@@ -70,7 +73,7 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
 
     private void init(LayoutInflater inflater, final ViewGroup container) {
         mView = inflater.inflate(R.layout.fragment_picture_list, container, false);
-        ButterKnife.bind(this, mView);
+        unbinder = ButterKnife.bind(this, mView);
 //        topView = inflater.inflate(R.layout.fragment_item_text, container, false);
 //        mTopView = new TopView(topView);
 
@@ -248,8 +251,8 @@ public class PictureFragment extends Fragment implements PictureContract.IView {
 
     @Override
     public void onDestroyView() {
+        unbinder.unbind();
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override

@@ -12,13 +12,13 @@ import com.bumptech.glide.Glide;
 import com.yitouwushui.imagemi.R;
 import com.yitouwushui.imagemi.application.MyApplication;
 import com.yitouwushui.imagemi.bean.ImageBean;
-import com.yitouwushui.imagemi.uitls.UIUtils;
+
 
 import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
@@ -138,9 +138,9 @@ public class PictureItemAdapter extends RecyclerView.Adapter<PictureItemAdapter.
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.img_picture)
+        @BindView(R.id.img_picture)
         ImageView imgPicture;
-        @Bind(R.id.img_selected)
+        @BindView(R.id.img_selected)
         ImageView imgChecked;
 
         private int position;
