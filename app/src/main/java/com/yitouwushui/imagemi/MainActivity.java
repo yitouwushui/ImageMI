@@ -1,5 +1,6 @@
 package com.yitouwushui.imagemi;
 
+import android.Manifest;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,14 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yitouwushui.imagemi.adapter.TabAdapter;
 import com.yitouwushui.imagemi.application.MyApplication;
 import com.yitouwushui.imagemi.mvp.picture.PictureFragment;
+import com.yitouwushui.imagemi.uitls.LogUtils;
+import com.yitouwushui.imagemi.uitls.PermissionsUtils;
 import com.yitouwushui.imagemi.uitls.ScreenUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.functions.Action1;
 
 /**
  * @author ding
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
         setContentView(R.layout.activity_main);
         init();
 
+
 //        OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addNetworkInterceptor(
 //                        new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
@@ -59,6 +65,18 @@ public class MainActivity extends AppCompatActivity implements PictureFragment.O
 
     private void init() {
         ButterKnife.bind(this);
+        PermissionsUtils.initClient(this)
+                .request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if (aBoolean){
+                            LogUtils.i("permissions","Manifest.permission.READ_EXTERNAL_STORAGE + 获取成功");
+                        } else {
+                            LogUtils.i("permissions","Manifest.permission.READ_EXTERNAL_STORAGE + 获取失败");
+                        }
+                    }
+                });
 //        tabLayout.setSelectedTabIndicatorColor(color);
 //        tabLayout.setSelectedTabIndicatorHeight(8);
         tabLayout.setSelectedTabIndicatorHeight(0);
